@@ -1,0 +1,34 @@
+<p-dialog *ngIf="display" header="Add A Card" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000" (onHide)="hide()">
+    <form [formGroup]="cardForm" (ngSubmit)="addCard(cardForm.value)">    
+             
+        <div class="p-field p-grid">
+            <label style="align-items: normal !important"  class="col-lg-6" for="cardTitle">
+                List Name
+            </label>
+            <div class="col-lg-6">
+                {{selectedListName}}
+            </div>
+        </div>    
+        <div class="p-field p-grid">
+            <label style="align-items: normal !important"  class="col-lg-6" for="cardTitle">
+                Card Title
+                <span class="text-danger">*</span>
+            </label>
+            <div class="col-lg-6">
+                <input pInputText type="text" formControlName="cardTitle" name="cardTitle" placeholder="Enter Card Title"/>
+                <span class="text-danger"  *ngIf="!cardForm.controls['cardTitle'].valid && cardForm.controls['cardTitle'].dirty">
+                    <span ng-message="required" class="ng-scope">This field is required</span>
+                </span>
+            </div>
+        </div>
+
+
+
+
+    </form>
+    <p-footer>
+        <span  class="text-danger float-left">* fields are mandatory.</span>
+        <button type="button" pButton (click)="addCard(cardForm.value)" label="Add" [disabled]="!cardForm.valid"></button>
+        <button type="button" pButton (click)="cancelAddCard()" label="Cancel" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

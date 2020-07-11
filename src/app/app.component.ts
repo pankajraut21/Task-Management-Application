@@ -8,9 +8,8 @@ import {Message} from 'primeng//api';
 
 import * as $ from 'jquery';
 
-export class Popup {
-  isOpen: boolean;
-}
+import * as data from './MockData/Lists.json';
+
 
 @Component({
   selector: 'app-root',
@@ -23,127 +22,147 @@ export class AppComponent implements OnInit {
   title = 'Task Management Application';
 
   listForm: FormGroup;
+  cardForm: FormGroup;
   submitted: boolean;
-
-
-  displayModal: boolean;
-  displayBasic: boolean;
-  displayBasic2: boolean;
-  displayMaximizable: boolean;
   position: string;
 
-  taskList = [{
-    listId: 1,
-    listName: 'To Do',
-    tasks: [{
-        id: 1,
-        value: 'Pay Electricity bill'
-      }, {
-        id: 2,
-        value: 'Make grocery list'
-      }]
-  }, {
-    listId: 2,
-    listName: 'In Progress',
-    tasks: [{
-        id: 1,
-        value: 'Iron clothes'
-      }]
-  },{
-    listId: 3,
-    listName: 'Done',
-    tasks: [{
-        id: 1,
-        value: 'Buy running shoe'
-      }, {
-        id: 2,
-        value: 'Order drinking water bottles'
-      }, {
-        id: 3,
-        value: 'Pay maintenance'
-      }, {
-        id: 2,
-        value: 'Order drinking water bottles'
-      }, {
-        id: 3,
-        value: 'Pay maintenance'
-      }, {
-        id: 2,
-        value: 'Order drinking water bottles'
-      }, {
-        id: 3,
-        value: 'Pay maintenance'
-      }, {
-        id: 2,
-        value: 'Order drinking water bottles'
-      }, {
-        id: 3,
-        value: 'Pay maintenance'
-      }, {
-        id: 2,
-        value: 'Order drinking water bottles'
-      }, {
-        id: 3,
-        value: 'Pay maintenance'
-      }]
-  }];
+  openAddListModal = {
+    show: false,
+    position: 'topright'
+  };
 
-  selectedState: any = null;
-  displayPosition: boolean;
+  openAddCardModal = {
+    show: false,
+    selectedListId: undefined,
+    selectedListName: undefined
+  };
 
-  private customerDiffer: KeyValueDiffer<string, any>;
-  private customer: Popup;
+  droped = [];
+  dragedColor = null;
+  taskList: any = (data as any).default.data;
 
   constructor(private fb: FormBuilder, private messageService: MessageService, private differs: KeyValueDiffers) {
-    this.customer = new Popup();
-    this.customerDiffer = this.differs.find(this.customer).create();
   }
 
-  customerChanged(changes: KeyValueChanges<string, any>) {
-    console.log('changes');
-    changes.forEachChangedItem((record) => console.log(record));
-    /* If you want to see details then use
-      changes.forEachRemovedItem((record) => ...);
-      changes.forEachAddedItem((record) => ...);
-      changes.forEachChangedItem((record) => ...);
-    */
+  setRandomId(): string{
+    const num = Math.random(); // 0.9394456857981651
+    num.toString(36); // '0.xtis06h6'
+    const id = num.toString(36).substr(2, 9); // 'xtis06h6'
+    return id;
   }
-  ngDoCheck(): void {
-      const changes = this.customerDiffer.diff(this.customer);
-      if (changes) {
-        this.customerChanged(changes);
-      }
-  }
+
   ngOnInit(): void {
-      this.listForm = this.fb.group({
-          firstName: new FormControl('', Validators.required),
-      });
-    }
-
-  addList(value: any): void {
-    this.customer = {
-      isOpen: false
+    this.openAddListModal = {
+      show: false,
+      position: 'topright'
     };
-    this.displayPosition = false;
-    if (this.listForm.valid) {
-      this.taskList.push({
-        listId: 1,
-        listName: value.firstName,
-        tasks: []
-      });
-      console.log('Form Submitted!');
-      this.listForm.reset();
-    }
-    this.messageService.add({severity: 'info', summary: 'Success', detail: 'Form Submitted'});
+    this.openAddCardModal = {
+      show: false,
+      selectedListId: undefined,
+      selectedListName: undefined
+    };
   }
-
-  get diagnostic() { return JSON.stringify(this.listForm.value); }
 
   showPositionDialog(position: string) {
-    this.customer = {
-      isOpen: true
-    };
-    this.position = position;
-    this.displayPosition = true;
+    this.openAddListModal.show = true;
+    this.openAddListModal.position = 'topright';
   }
+
+  openAddCardDialog(list) {
+    this.openAddCardModal = {
+      show: true,
+      selectedListId: list.listId,
+      selectedListName: list.listName
+    };
+  }
+
+   dragStart(e, c, taskId) {
+    this.dragedColor = c;
+    this.dragedColor.listId = taskId;
+   }
+
+   dragEnd(e) {
+     console.log('dragEnd e');
+     console.log(e);
+   }
+
+   drop(event, sale, listId) {
+     if (this.dragedColor.listId === listId) {
+       return;
+     }
+     let setSeletedList;
+     let selectedListIndex;
+     if (this.dragedColor) {
+       const draggedCarIndex = this.findIndex(this.dragedColor);
+       sale.tasks = [...sale.tasks, this.dragedColor];
+       for (let j = 0; j < this.taskList.length; j++) {
+        if (this.taskList[j].listId === this.dragedColor.listId) {
+          setSeletedList = this.taskList[j].tasks;
+          selectedListIndex = j;
+        }
+      }
+       this.taskList[selectedListIndex].tasks = setSeletedList.filter(
+         (val, i) => i !== draggedCarIndex
+       );
+       this.dragedColor = null;
+     }
+     console.log(this.taskList);
+   }
+
+   findIndex(car) {
+    let index = -1;
+    let setSeletedList;
+    // tslint:disable-next-line:prefer-for-of
+    for (let j = 0; j < this.taskList.length; j++) {
+      if (this.taskList[j].listId === car.listId) {
+        setSeletedList = this.taskList[j].tasks;
+      }
+    }
+
+    for (let i = 0; i < setSeletedList.length; i++) {
+       if (car.id === setSeletedList[i].id) {
+         index = i;
+         break;
+       }
+     }
+    return index;
+   }
+
+   onClose(event) {
+     console.log('event');
+     console.log(event);
+     if (event.formData && event.formData.value.listName) {
+      this.taskList.push({
+        listId: this.setRandomId(),
+        listName: event.formData.value.listName,
+        tasks: []
+      });
+     }
+     this.openAddListModal = {
+       show: event.display,
+       position: null
+     };
+   }
+
+   onCloseCardPopup(event) {
+    let setSelectedListIndex;
+    if (event.formData && event.formData.value.cardTitle) {
+      for (let j = 0; j < this.taskList.length; j++) {
+        if (this.taskList[j].listId === event.selectedListId) {
+          setSelectedListIndex = j;
+        }
+      }
+      this.taskList[setSelectedListIndex].tasks.push({
+         id: this.setRandomId(),
+         value: event.formData.value.cardTitle
+      });
+    }
+
+    this.openAddCardModal = {
+      show: event.display,
+      selectedListId: undefined,
+      selectedListName: undefined
+    };
+  }
+
 }

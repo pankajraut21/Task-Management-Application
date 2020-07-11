@@ -17,14 +17,20 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 
+import {DragDropModule} from 'primeng/dragdrop';
+
 import { AccordionModule, MenuItem } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AddListComponent } from './add-list/add-list.component';
+import { AddCardComponent } from './add-card/add-card.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AddListComponent,
+    AddCardComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +48,8 @@ import { AppRoutingModule } from './app-routing.module';
     ButtonModule,
     DialogModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

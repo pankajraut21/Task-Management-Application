@@ -5,8 +5,7 @@
 }
 
 ::ng-deep .custom-card-title .ui-card-body {
-    background-color: #e9e9e9;
-
+    background-color: #edede2;
 }
 
 ::ng-deep .custom-card-title .ui-card-content {
@@ -15,8 +14,25 @@
     margin-bottom: 25px;
     overflow-y: auto;
 }
+
+.app-container-title {
+    border: 1px solid black;
+    background-color: #916aae;
+    color: white;
+    padding: 10px;
+}
+
 .add-new-link {
     position: absolute;
     bottom: 10px;
     left: 24px;
+}
+
+.app-container-body {    
+    border: 1px solid black;
+    background-color: #e2d2ed;
+    padding: 10px;
+    min-height: 70vh;
+    max-height: 72vh;
+    overflow-y: auto;
 }

@@ -1,0 +1,23 @@
+<p-dialog *ngIf="display" appendTo="body" header="Add New List" [(visible)]="display" [position]="position" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" (onHide)="hide()">
+    <form [formGroup]="listForm" (ngSubmit)="addList(listForm.value)">        
+        <div class="p-field p-grid">
+            <label style="align-items: normal !important" class="col-lg-6" for="listName">
+                List Name
+                <span class="text-danger">*</span>
+            </label>
+            <div class="col-lg-6">
+                <input pInputText type="text" formControlName="listName" placeholder="Enter List Name"/>
+                <span class="text-danger"  *ngIf="!listForm.controls['listName'].valid && listForm.controls['listName'].dirty">
+                    <span ng-message="required" class="ng-scope">This field is required</span>
+                </span>
+            </div>
+        </div>
+    </form>
+    <p-footer>
+        <span  class="text-danger float-left">* fields are mandatory.</span>
+        <button type="button" pButton (click)="addList(listForm.value)" label="Add" [disabled]="!listForm.valid"></button>
+        <button type="button" pButton (click)="cancelAddList()" label="Cancel" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
