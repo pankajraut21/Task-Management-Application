@@ -1,0 +1,18 @@
+<p-dialog *ngIf="display" header="Card Details" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000" (visibleChange)="hide()">
+
+    <div class="p-field p-grid">
+        <label style="align-items: normal !important" class="col-lg-3" for="cardTitle"> List Name </label>
+        <div class="col-lg-8">  {{selectedListName}} </div>
+    </div>  
+  
+    <div class="p-field p-grid">
+        <label style="align-items: normal !important"  class="col-lg-3" for="cardTitle"> Card </label>
+        <div class="col-lg-8">
+            <div class="form-group">
+                {{selectedCardDetails}}
+            </div>                
+        </div>
+    </div>
+
+    <!-- <p-footer></p-footer> -->
+</p-dialog>

@@ -1,24 +1,26 @@
-<p-dialog *ngIf="display" header="Add A Card" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000" (onHide)="hide()">
+<p-dialog *ngIf="display" header="Add A Card" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000" (visibleChange)="hide()">
     <form [formGroup]="cardForm" (ngSubmit)="addCard(cardForm.value)">    
              
         <div class="p-field p-grid">
-            <label style="align-items: normal !important"  class="col-lg-6" for="cardTitle">
+            <label style="align-items: normal !important"  class="col-lg-3" for="cardTitle">
                 List Name
             </label>
-            <div class="col-lg-6">
+            <div class="col-lg-9">
                 {{selectedListName}}
             </div>
         </div>    
         <div class="p-field p-grid">
-            <label style="align-items: normal !important"  class="col-lg-6" for="cardTitle">
+            <label style="align-items: normal !important"  class="col-lg-3" for="cardTitle">
                 Card Title
                 <span class="text-danger">*</span>
             </label>
-            <div class="col-lg-6">
-                <input pInputText type="text" formControlName="cardTitle" name="cardTitle" placeholder="Enter Card Title"/>
-                <span class="text-danger"  *ngIf="!cardForm.controls['cardTitle'].valid && cardForm.controls['cardTitle'].dirty">
-                    <span ng-message="required" class="ng-scope">This field is required</span>
-                </span>
+            <div class="col-lg-9">
+                <div class="form-group">
+                    <input type="text" formControlName="cardTitle" class="form-control" placeholder="Enter Card Title"  [ngClass]="{ 'is-invalid': !cardForm.controls['cardTitle'].valid && cardForm.controls['cardTitle'].dirty }" />
+                    <div *ngIf="!cardForm.controls['cardTitle'].valid && cardForm.controls['cardTitle'].dirty" class="invalid-feedback">
+                        <div *ngIf="cardForm.controls.cardTitle.errors.required">This field is required</div>
+                    </div>
+                </div>                
             </div>
         </div>
 

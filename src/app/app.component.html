@@ -1,3 +1,17 @@
+
+<app-add-list *ngIf="addListModal.show" [addListModal]="addListModal" (addListModalChange)="onCloseAddListPopop($event)"></app-add-list>
+<app-edit-list *ngIf="openEditListModal.show" [editListModal]="openEditListModal" (editListModalChange)="onCloseEditListPopup($event)"></app-edit-list>
+<app-add-card *ngIf="openAddCardModal.show" [addCardModal]="openAddCardModal" (addCardModalChange)="onCloseCardPopup($event)"></app-add-card>
+<app-card-details *ngIf="openCardDetailsModal.show" [cardDetailsModal]="openCardDetailsModal" (cardDetailsModalChange)="onCloseCardDetailsPopup($event)"></app-card-details>
+
+<p-confirmDialog #cd [style]="{width: '30vw'}" key="positionDialog" [position]="'center'" [baseZIndex]="10000">
+  <p-footer>
+    <button type="button" pButton icon="" label="Yes" (click)="cd.accept()"></button>
+    <button class="ui-button-secondary" type="button" pButton icon="" label="No" (click)="cd.reject()"></button>
+  </p-footer>
+</p-confirmDialog>
+
+
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
   <img
@@ -17,38 +31,45 @@
   </div>
 </div>
 
-<div class="row app-container-body">
-  <div class="col-lg-10">
-    <div class="row">
-      <div id="card{{task.listId}}" pDroppable="taskDetails"  (onDrop)="drop($event, task, task.listId)" style="padding-left: 0px !important;margin-bottom: 10px;" class="col-lg-3" *ngFor="let task of taskList">
-        <p-card styleClass="custom-card-title" [header]='task.listName'>
-          <div class="card-container" *ngFor="let taskDetails of task.tasks"
-            pDraggable="taskDetails" (onDragStart)="dragStart($event, taskDetails, task.listId)" (onDragEnd)="dragEnd($event)">
-            <div class="card card-small text-left">
-              <span>{{taskDetails.value}}</span>
+  <div class="row app-container-body">
+    <div class="col-lg-10">
+      <div class="row">
+        <div id="card{{list.listId}}"  *ngFor="let list of taskList" pDroppable="cardDetails"  (onDrop)="drop($event, list, list.listId)" style="padding-left: 0px !important;margin-bottom: 10px;" class="col-lg-3">
+          <p-card styleClass="custom-card-title" [header]='list.listName'>
+            <div class="card-container" *ngFor="let cardDetails of list.cards" 
+                pDraggable="cardDetails" (onDragStart)="dragStart($event, cardDetails, list.listId)"
+                (onDragEnd)="dragEnd($event)">
+              <div class="card card-small text-left" #img (contextmenu)="onContextMenu(list.listId, cardDetails.id)">
+                <p-contextMenu appendTo="body" [target]="img" [model]="deleteCard"></p-contextMenu>
+                <span>
+                  <div class="card-details-value">{{cardDetails.value}}</div>
+                  <i (click)="openCardDetailsDialog(list.listName, cardDetails.value)" class="fa fa-info-circle pull-right card-details-icon" aria-hidden="true"></i>
+                </span>
+              </div>
             </div>
+          </p-card>
+
+          <i class="fa fa-cog list-icon pointer" (contextmenu)="openListMenu($event, cm, list)" (click)="openListMenu($event, cm, list)" aria-hidden="true"></i>
+          <p-contextMenu #cm [model]="listMenuData" appendTo="body"></p-contextMenu>
+
+          <div class="add-new-link">
+              <span>
+                <a style="cursor: pointer;" (click)="openAddCardDialog(list)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add a Card
+                </a>
+              </span>
           </div>
-        </p-card>
-        <div class="add-new-link">
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            <span><a style="cursor: pointer;" (click)="openAddCardDialog(task)">Add a Card</a></span>
         </div>
       </div>
     </div>
+    <div class="col-lg-2">
+      <span>
+        <a style="cursor: pointer;" (click)="openAddListPopop('topright')">
+          <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add another list
+        </a>
+      </span>
+    </div>
   </div>
-  <div class="col-lg-2"><span>
-    <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-    <a style="cursor: pointer;" (click)="showPositionDialog('topright')">Add another list</a></span>
-  </div>
-</div>
-
-
-
-
-
-
-<app-add-list *ngIf="openAddListModal.show" [openAddListModal]="openAddListModal" (close)="onClose($event)"></app-add-list>
-<app-add-card *ngIf="openAddCardModal.show" [openAddCardModal]="openAddCardModal" (close)="onCloseCardPopup($event)"></app-add-card>
 
 
   <!-- Footer -->

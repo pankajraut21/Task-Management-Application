@@ -10,9 +10,9 @@ import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms'
 export class AddCardComponent implements OnInit, OnChanges {
 
   // tslint:disable-next-line:no-input-rename
-  @Input() openAddCardModal: any;
+  @Input() addCardModal: any;
   // tslint:disable-next-line:no-output-native
-  @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() addCardModalChange: EventEmitter<any> = new EventEmitter();
 
   cardForm: FormGroup;
 
@@ -25,9 +25,9 @@ export class AddCardComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.display = this.openAddCardModal.show;
-    this.selectedListId = this.openAddCardModal.selectedListId;
-    this.selectedListName = this.openAddCardModal.selectedListName;
+    this.display = this.addCardModal.show;
+    this.selectedListId = this.addCardModal.selectedListId;
+    this.selectedListName = this.addCardModal.selectedListName;
     this.cardForm = this.fb.group({
         cardTitle: new FormControl('', Validators.required),
     });
@@ -57,7 +57,7 @@ export class AddCardComponent implements OnInit, OnChanges {
       display: false,
       selectedListId: this.selectedListId
     };
-    this.close.emit(dataToOutput);
+    this.addCardModalChange.emit(dataToOutput);
   }
 
 }

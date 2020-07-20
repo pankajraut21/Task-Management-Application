@@ -1,16 +1,18 @@
-<p-dialog *ngIf="display" appendTo="body" header="Add New List" [(visible)]="display" [position]="position" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false" (onHide)="hide()">
+<p-dialog *ngIf="display" header="Add New List" [(visible)]="display" appendTo="body" [position]="position" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" (visibleChange)="hide()">
     <form [formGroup]="listForm" (ngSubmit)="addList(listForm.value)">        
         <div class="p-field p-grid">
             <label style="align-items: normal !important" class="col-lg-6" for="listName">
                 List Name
                 <span class="text-danger">*</span>
             </label>
-            <div class="col-lg-6">
-                <input pInputText type="text" formControlName="listName" placeholder="Enter List Name"/>
-                <span class="text-danger"  *ngIf="!listForm.controls['listName'].valid && listForm.controls['listName'].dirty">
-                    <span ng-message="required" class="ng-scope">This field is required</span>
-                </span>
+            <div class="col-lg-6">             
+                <div class="form-group">
+                    <input type="text" formControlName="listName" class="form-control" placeholder="Enter List Name"  [ngClass]="{ 'is-invalid': !listForm.controls['listName'].valid && listForm.controls['listName'].dirty }" />
+                    <div *ngIf="!listForm.controls['listName'].valid && listForm.controls['listName'].dirty" class="invalid-feedback">
+                        <div *ngIf="listForm.controls.listName.errors.required">This field is required</div>
+                    </div>
+                </div>   
             </div>
         </div>
     </form>

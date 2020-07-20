@@ -1,38 +1,33 @@
-{
-    "data": [
+[
     {
       "listId": "1v6z4c2xq",
       "listName": "To Do",
-      "tasks": [
+      "cards": [
         {
           "id": "baghwp2pv",
           "value": "wwwwwwwwww"
         },
         {
           "id": "yyqyilcd0",
-          "value": "ssssss",
-          "listId": "wyz0d23hz"
+          "value": "ssssss"
         },
         {
-          "id": 1,
-          "value": "Iron clothes",
-          "listId": "b44g7bpdx"
+          "id": "b44g7bpdx",
+          "value": "Iron clothes"
         }
       ]
     },
     {
       "listId": "wyz0d23hz",
       "listName": "In Progress",
-      "tasks": [
+      "cards": [
         {
-          "id": 1,
-          "value": "Pay Electricity bill",
-          "listId": "1v6z4c2xq"
+          "id": "1v6zsss4c2xq",
+          "value": "Pay Electricity bill"
         },
         {
-          "id": 2,
-          "value": "Make grocery list",
-          "listId": "1v6z4c2xq"
+          "id": "1v6z4c2xqsss",
+          "value": "Make grocery list"
         },
         {
           "id": "ajdp3vn34",
@@ -43,7 +38,7 @@
     {
       "listId": "b44g7bpdx",
       "listName": "Done",
-      "tasks": [
+      "cards": [
         {
           "id": "ec47dffbx",
           "value": "Buy running shoe"
@@ -63,4 +58,3 @@
       ]
     }
   ]
-}

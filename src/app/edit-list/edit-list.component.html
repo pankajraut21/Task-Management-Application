@@ -1,0 +1,49 @@
+<p-dialog *ngIf="display" header="Edit List" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}"
+    [baseZIndex]="10000" (visibleChange)="hide()">
+    <!-- [contentStyle]="{minHeight: '450px'}" -->
+    <form [formGroup]="listDetailsForm" (ngSubmit)="updateListDetails(listDetailsForm.value)">    
+             
+        <div class="p-field p-grid">
+            <label style="align-items: normal !important"  class="col-lg-3" for="cardTitle">
+                List Name
+                <span class="text-danger">*</span>
+            </label>
+            <div class="col-lg-9">
+                <div class="">
+                    <div class="form-group">
+                        <input type="text" formControlName="listName" class="form-control" [ngClass]="{ 'is-invalid': listDetailsForm.controls.listName.errors }" />
+                        <div *ngIf="listDetailsForm.controls.listName.errors" class="invalid-feedback">
+                            <div *ngIf="listDetailsForm.controls.listName.errors.required">This field is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+
+        <div class="p-field p-grid">
+            <label style="align-items: normal !important"  class="col-lg-3" for="cardTitle">
+                Cards
+            </label>
+            <div  class="col-lg-9">
+                <div *ngFor="let card of t.controls; let i = index" class="list-group-item">
+                    <div [formGroup]="card" class="row">
+                        <div class="col-lg-10">
+                            <input type="text" formControlName="value" class="form-control" [ngClass]="{ 'is-invalid': card.controls.value.errors }" />
+                            <div *ngIf="card.controls.value.errors" class="invalid-feedback">
+                                <div *ngIf="card.controls.value.errors.required">This field is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1">
+                            <i class="fa fa-trash cursor-pointer" aria-hidden="true" (click)="removeTask(i)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p-footer>
+        <span  class="text-danger float-left">* fields are mandatory.</span>
+        <button type="button" pButton (click)="updateListDetails(listDetailsForm.value)" label="Update" [disabled]="!listDetailsForm.valid"></button>
+        <button type="button" pButton (click)="cancelAddCard()" label="Cancel" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

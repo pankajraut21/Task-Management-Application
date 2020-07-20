@@ -2,6 +2,11 @@
     font-size: 1.3em !important;
     font-weight: normal !important;
     margin-bottom: 0.5em !important;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 174px;
 }
 
 ::ng-deep .custom-card-title .ui-card-body {
@@ -15,6 +20,16 @@
     overflow-y: auto;
 }
 
+.card-details-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 174px;
+    float: left;
+}
+.card-details-icon {
+    margin: 8px 10px 0px 10px;
+}
 .app-container-title {
     border: 1px solid black;
     background-color: #916aae;
@@ -35,4 +50,14 @@
     min-height: 70vh;
     max-height: 72vh;
     overflow-y: auto;
+}
+
+.list-icon {
+    right: 30px;
+    top: 15px;
+    position: absolute;
+}
+
+.list-icon:hover {
+    cursor: pointer;
 }

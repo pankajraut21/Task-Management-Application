@@ -10,9 +10,9 @@ import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms'
 export class AddListComponent implements OnInit, OnChanges {
 
   // tslint:disable-next-line:no-input-rename
-  @Input() openAddListModal: any;
+  @Input() addListModal: any;
   // tslint:disable-next-line:no-output-native
-  @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() addListModalChange: EventEmitter<any> = new EventEmitter();
 
   listForm: FormGroup;
   display: any;
@@ -22,8 +22,8 @@ export class AddListComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.display = this.openAddListModal.show;
-    this.position = this.openAddListModal.position;
+    this.display = this.addListModal.show;
+    this.position = this.addListModal.position;
     this.listForm = this.fb.group({
         listName: new FormControl('', Validators.required),
     });
@@ -43,16 +43,17 @@ export class AddListComponent implements OnInit, OnChanges {
   }
 
   cancelAddList() {
-    this.display = false;
     this.listForm.reset();
+    this.hide();
   }
 
   hide() {
+    console.log('hiding add list...');
     const p = {
       formData: this.submitted ? this.listForm : null,
       display: false
     };
-    this.close.emit(p);
+    this.addListModalChange.emit(p);
   }
 
 }
