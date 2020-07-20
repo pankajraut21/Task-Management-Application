@@ -59,11 +59,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
     this.listService.getListData().then(listData => {
       this.taskList = listData;
     });
+    */
 
-    this.addListModal = {
+   this.taskList = this.listService.getListData();
+
+  this.addListModal = {
       show: false,
       position: 'topright'
     };
